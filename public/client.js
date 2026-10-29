@@ -26,6 +26,7 @@ formLogin.addEventListener('submit', (e) => {
 
   // TODO 1 — Emitir el evento 'entrar' al servidor con miNombre.
   // socket.emit(...)
+    socket.emit('entrar', miNombre);
 
   login.classList.add('oculto');
   chat.classList.remove('oculto');

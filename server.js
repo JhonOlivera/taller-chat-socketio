@@ -38,6 +38,11 @@ io.on('connection', (socket) => {
   //     usando [...usuarios.values()]
   //
   // socket.on('entrar', (nombre) => { ... });
+    socket.on('entrar', (nombre) => {
+    usuarios.set(socket.id, nombre);
+    io.emit('sistema', `${nombre} se unió al chat`);
+    io.emit('usuarios', [...usuarios.values()]);
+  });
 
 
   // TODO 2 — Escuchar el evento 'mensaje' que manda el cliente.
