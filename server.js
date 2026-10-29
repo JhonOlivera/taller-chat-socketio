@@ -52,17 +52,29 @@ io.on('connection', (socket) => {
   //        tómalo de `usuarios.get(socket.id)`.
   //
   // socket.on('mensaje', (texto) => { ... });
-
+  socket.on('mensaje', (texto) => {
+    const autor = usuarios.get(socket.id);
+    if (!autor) return;
+    io.emit('mensaje', { autor, texto, hora: new Date().toISOString() });
+  });
 
   // TODO 3 — Escuchar 'escribiendo' y avisar SOLO a los demás
   //   (pista: socket.broadcast.emit, no io.emit).
-
+  socket.on('escribiendo', (nombre) => {
+    socket.broadcast.emit('escribiendo', nombre);
+  });
 
   // TODO 4 — Manejar la desconexión.
   //   Evento 'disconnect': borra el usuario del Map, avisa por 'sistema'
   //   y vuelve a mandar la lista de 'usuarios'.
   socket.on('disconnect', () => {
     console.log('Se desconectó:', socket.id);
+    const nombre = usuarios.get(socket.id);
+    if (nombre) {
+      usuarios.delete(socket.id);
+      io.emit('sistema', `${nombre} salió del chat`);
+      io.emit('usuarios', [...usuarios.values()]);
+    }
   });
 });
 
