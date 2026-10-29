@@ -41,6 +41,7 @@ formMensaje.addEventListener('submit', (e) => {
 
   // TODO 2 — Emitir el evento 'mensaje' con el texto.
   // socket.emit(...)
+    socket.emit('mensaje', texto);
 
   inputMensaje.value = '';
 });
@@ -48,6 +49,7 @@ formMensaje.addEventListener('submit', (e) => {
 // --- Avisar que estoy escribiendo ---------------------------
 inputMensaje.addEventListener('input', () => {
   // TODO 3 — Emitir 'escribiendo' con miNombre.
+  socket.emit('escribiendo', miNombre);
 });
 
 // --- Recibir del servidor -----------------------------------
